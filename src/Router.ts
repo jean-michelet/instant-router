@@ -8,7 +8,6 @@ export default class Router {
 
   public addRoute (route: RouteDefinition) {
     if (typeof route.methods === 'string') {
-      this.addMethod(route.methods)
       route.methods = [route.methods]
     }
 

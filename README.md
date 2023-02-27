@@ -1,6 +1,14 @@
-# [WIP] Routing
+# [WIP] FF Router
 
 Ultra fast router using RadixTree data structure to match incoming HTTP requests.
+
+Although this router includes unit tests and benchmarks, its initial development 
+is intended to serve as a learning material. 
+
+I recommend to use [`find-my-way`](https://www.npmjs.com/package/find-my-way), an extremely powerful router.
+
+This router does not include middleware functionality, unlike many Node frameworks. 
+This is a personal design choice, I consider that a router is only dedicated to match an http request and a server resource (route), not the life cycle of an HTTP request.
 
 ## Usage
 
@@ -9,27 +17,25 @@ interface MyIncomingMessage extends IncomingMessage {
   params: { [paramName: string]: string | number }
 }
 
-const router = new Router()
-
 const routes = [
   { path: "/", 
     methods: ["GET"], 
     controller: (req: IncomingMessage, res: ServerResponse) => res.end("Hello, World!") 
   },
-
   { path: "/users/:name", 
     methods: ["GET"], 
     requirements: { name: "[a-zA-Z]+" }, 
     controller: (req: MyIncomingMessage, res: ServerResponse) => res.end(`Hello ${req.params.name}!`) }
 ]
 
+const router = new Router()
 routes.forEach(route => router.addRoute(route))
 
 http.createServer((req, res) => {
   const context = RequestContext.fromIncomingMessage(req);
   try {
     const { controller, params } = router.match(context);
-    
+
     (controller as Function)({...req, params}, res);
   } catch (error) {
     console.error(error)
@@ -45,61 +51,47 @@ http.createServer((req, res) => {
     }
   }
 }).listen(3000, () => console.log("Listening on localhost:3000"))
+
 ```
 
-## benchmarks
-Some benchmark comparisons with some famous routers:
-* [`router`](https://www.npmjs.com/package/router)
-* [`find-my-way`](https://www.npmjs.com/package/find-my-way) (reputed ultra fast)
+## Benchmarks
+Benchmark comparisons, adapted script from: [https://github.com/delvedor/router-benchmark/tree/master/benchmarks](https://github.com/delvedor/router-benchmark/tree/master/benchmarks)
 
-### Context
-The performances of the routers have been measured in a http server context created by the module [http](https://nodejs.org/api/http.html). cf. `/benchmarks`
 
 ### Machine
 linux x64 | 8 vCPUs | 7.6GB Mem
 
 ### Software versions
 - node: 18.14.2
-- autocannon: 7.10.0
 
-The benchmark tool that has been used is [`autocanon`](https://github.com/mcollina/autocannon#usage) using the following command line:
-```bash
-autocannon -c 100 -d 40 -p 10 localhost:3000
 ```
-Inspired by: [Fastify Benchmarks](https://github.com/fastify/benchmarks#benchmarks)
+=======================
+ find-my-way benchmark
+=======================
+short static: 16,564,452 ops/sec
+static with same radix: 5,510,309 ops/sec
+dynamic route: 3,411,527 ops/sec
+mixed static dynamic: 4,262,101 ops/sec
+long static: 3,774,220 ops/sec
+all together: 879,332 ops/sec
 
-### Testing strategy
-For each router, 500 routes are generated with the following characteristics:
-* the http method used is GET.
-* the paths take the following form `/foo/${i}/:id` where `i` is between 0 and 500 and `:id` must match the regex `\d+`
+=====================
+ ff-router benchmark
+=====================
+short static: 7,580,146 ops/sec
+static with same radix: 6,958,251 ops/sec
+dynamic route: 3,042,458 ops/sec
+mixed static dynamic: 3,336,445 ops/sec
+long static: 4,035,197 ops/sec
+all together: 806,509 ops/sec
 
-3 tests are performed:
-* GET /foo/1/555
-* GET /foo/250/555
-* GET /foo/500/555
-
-### Benchmark results:
-> Need to be reproduced
-
-#### Test 1
-|              | Version | Requests/s | Latency (ms) | Throughput/Mb |
-| :--          | --:     | :-:        | --:          | --:           |
-| find-my-way  | 7.5.0   | 54641.6    | 17.18        | 8.09          |
-| ff-router    | 1.0.0   | 49646.4    | 19.63        | 7.25          |
-| router       | 1.3.8   | 42231.8    | 65.61        | 6.38          |
-
-
-#### Test 2
-|              | Version | Requests/s | Latency (ms) | Throughput/Mb |
-| :--          | --:     | :-:        | --:          | --:           |
-| ff-router    | 1.0.0   | 46483.2    | 21.02        | 6.79          |
-| find-my-way  | 7.5.0   | 24258.9    | 40.73        | 3.59          |
-| router       | 1.3.8   | 17898.6    | 55.34        | 2.7           |
-
-
-#### Test 3
-|              | Version | Requests/s  | Latency (ms) | Throughput/Mb |
-| :--          | --:     | :-:         | --:          | --:           |
-| find-my-way  | 7.5.0   | 23485.68    | 41.26        | 3.48          |
-| ff-router    | 1.0.0   | 23302.85    | 42.34        | 3.4           |
-| router       | 1.3.8   | 10325.05    | 96.26        | 1.56          |
+=======================================================
+ express router benchmark (WARNING: includes handling)
+=======================================================
+short static: 2,068,838 ops/sec
+static with same radix: 1,793,668 ops/sec
+dynamic route: 1,090,216 ops/sec
+mixed static dynamic: 848,040 ops/sec
+long static: 881,352 ops/sec
+all together: 225,932 ops/sec
+```

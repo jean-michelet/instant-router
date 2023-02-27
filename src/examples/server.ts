@@ -8,27 +8,25 @@ interface MyIncomingMessage extends IncomingMessage {
   params: { [paramName: string]: string | number }
 }
 
-const router = new Router()
-
 const routes = [
   { path: "/", 
     methods: ["GET"], 
     controller: (req: IncomingMessage, res: ServerResponse) => res.end("Hello, World!") 
   },
-
   { path: "/users/:name", 
     methods: ["GET"], 
     requirements: { name: "[a-zA-Z]+" }, 
     controller: (req: MyIncomingMessage, res: ServerResponse) => res.end(`Hello ${req.params.name}!`) }
 ]
 
+const router = new Router()
 routes.forEach(route => router.addRoute(route))
 
 http.createServer((req, res) => {
   const context = RequestContext.fromIncomingMessage(req);
   try {
     const { controller, params } = router.match(context);
-    
+
     (controller as Function)({...req, params}, res);
   } catch (error) {
     console.error(error)
