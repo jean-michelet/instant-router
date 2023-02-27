@@ -1,18 +1,26 @@
-# Routing
+# [WIP] Routing
 
 Ultra fast router using RadixTree data structure to match incoming HTTP requests.
 
 ## Usage
 
 ```ts
-import Router from "./Router";
-import { RouteDefinition } from "./Route";
+interface MyIncomingMessage extends IncomingMessage {
+  params: { [paramName: string]: string | number }
+}
 
 const router = new Router()
 
-const routes: RouteDefinition[] = [
-  { path: "/", methods: ["GET"], controller: (req, res) => res.end("Hello, World!") },
-  { path: "/user/:id", methods: ["GET"], requirements: { id: "\\d+" }, controller: getUserController }
+const routes = [
+  { path: "/", 
+    methods: ["GET"], 
+    controller: (req: IncomingMessage, res: ServerResponse) => res.end("Hello, World!") 
+  },
+
+  { path: "/users/:name", 
+    methods: ["GET"], 
+    requirements: { name: "[a-zA-Z]+" }, 
+    controller: (req: MyIncomingMessage, res: ServerResponse) => res.end(`Hello ${req.params.name}!`) }
 ]
 
 routes.forEach(route => router.addRoute(route))
@@ -20,21 +28,23 @@ routes.forEach(route => router.addRoute(route))
 http.createServer((req, res) => {
   const context = RequestContext.fromIncomingMessage(req);
   try {
-    const node = router.findNode(context.path, context.method);
-    node.controller(req, res, node.params);
+    const { controller, params } = router.match(context);
+    
+    (controller as Function)({...req, params}, res);
   } catch (error) {
+    console.error(error)
     if (error instanceof ResourceNotFound) {
       res.writeHead(404);
       res.end('404 - Resource not found');
     } else if (error instanceof MethodNotAllowedError) {
       res.writeHead(405);
-      res.end(`405 - Method ${error.method} not allowed`);
+      res.end(`405 - Method ${context.method} not allowed`);
     } else {
       res.writeHead(500);
       res.end('500 - Internal server error');
     }
   }
-});
+}).listen(3000, () => console.log("Listening on localhost:3000"))
 ```
 
 ## benchmarks

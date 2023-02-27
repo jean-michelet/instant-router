@@ -2,8 +2,11 @@ import http, { IncomingMessage, ServerResponse } from 'node:http'
 import ResourceNotFound from '../errors/ResourceNotFound'
 import RequestContext from '../RequestContext'
 import Router from '../Router'
-import { ControllerFunction } from '../RouteDefinition'
 import MethodNotAllowedError from '../errors/MethodNotAllowedError'
+
+interface MyIncomingMessage extends IncomingMessage {
+  params: { [paramName: string]: string | number }
+}
 
 const router = new Router()
 
@@ -13,10 +16,10 @@ const routes = [
     controller: (req: IncomingMessage, res: ServerResponse) => res.end("Hello, World!") 
   },
 
-  { path: "/user/:id", 
+  { path: "/users/:name", 
     methods: ["GET"], 
-    requirements: { id: "\\d+" }, 
-    controller: (req: IncomingMessage, res: ServerResponse) => res.end("Hello Jean!") }
+    requirements: { name: "[a-zA-Z]+" }, 
+    controller: (req: MyIncomingMessage, res: ServerResponse) => res.end(`Hello ${req.params.name}!`) }
 ]
 
 routes.forEach(route => router.addRoute(route))
@@ -24,8 +27,9 @@ routes.forEach(route => router.addRoute(route))
 http.createServer((req, res) => {
   const context = RequestContext.fromIncomingMessage(req);
   try {
-    const node = router.match(context);
-    (node.controller as ControllerFunction)(req, res);
+    const { controller, params } = router.match(context);
+    
+    (controller as Function)({...req, params}, res);
   } catch (error) {
     console.error(error)
     if (error instanceof ResourceNotFound) {
@@ -39,4 +43,4 @@ http.createServer((req, res) => {
       res.end('500 - Internal server error');
     }
   }
-}).listen(3000)
+}).listen(3000, () => console.log("Listening on localhost:3000"))
