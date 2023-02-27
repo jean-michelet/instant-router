@@ -68,30 +68,30 @@ linux x64 | 8 vCPUs | 7.6GB Mem
 =======================
  find-my-way benchmark
 =======================
-short static: 16,564,452 ops/sec
-static with same radix: 5,510,309 ops/sec
-dynamic route: 3,411,527 ops/sec
-mixed static dynamic: 4,262,101 ops/sec
-long static: 3,774,220 ops/sec
-all together: 879,332 ops/sec
+short static: 16,757,627 ops/sec
+static with same radix: 6,342,316 ops/sec
+dynamic route: 3,409,237 ops/sec
+mixed static dynamic: 4,071,355 ops/sec
+long static: 3,489,597 ops/sec
+all together: 876,341 ops/sec
 
 =====================
  ff-router benchmark
 =====================
-short static: 7,580,146 ops/sec
-static with same radix: 6,958,251 ops/sec
-dynamic route: 3,042,458 ops/sec
-mixed static dynamic: 3,336,445 ops/sec
-long static: 4,035,197 ops/sec
-all together: 806,509 ops/sec
+short static: 9,636,848 ops/sec
+static with same radix: 7,404,884 ops/sec
+dynamic route: 3,235,661 ops/sec
+mixed static dynamic: 3,337,301 ops/sec
+long static: 4,296,122 ops/sec
+all together: 835,496 ops/sec
 
 =======================================================
  express router benchmark (WARNING: includes handling)
 =======================================================
-short static: 2,068,838 ops/sec
-static with same radix: 1,793,668 ops/sec
-dynamic route: 1,090,216 ops/sec
-mixed static dynamic: 848,040 ops/sec
-long static: 881,352 ops/sec
-all together: 225,932 ops/sec
+short static: 2,089,905 ops/sec
+static with same radix: 1,824,541 ops/sec
+dynamic route: 1,074,232 ops/sec
+mixed static dynamic: 754,256 ops/sec
+long static: 844,073 ops/sec
+all together: 218,512 ops/sec
 ```

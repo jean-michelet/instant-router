@@ -9,7 +9,7 @@ interface MyIncomingMessage extends IncomingMessage {
 }
 
 const routes = [
-  { path: "/", 
+  { path: "/static", 
     methods: ["GET"], 
     controller: (req: IncomingMessage, res: ServerResponse) => res.end("Hello, World!") 
   },

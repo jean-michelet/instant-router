@@ -17,6 +17,7 @@ export const TRIE_NODE_DEFAULT_REGEX = /^[^\/]+$/
 
 export default class RadixTrieRouter {
   private readonly _root: TrieNode = { name: '/', fullName: '', isPath: false, isParam: false, children: [] }
+  private _shortStatics: { [paramName: string]: TrieNode } = {}
 
   get root (): TrieNode {
     return this._root
@@ -27,6 +28,14 @@ export default class RadixTrieRouter {
     const params: { [paramName: string]: string } = {}
 
     const parts = path.split('/')
+    if (parts.length == 2) {
+      const shortStatic = this._getShortStatic(parts[1])
+
+      if (shortStatic) {
+        return shortStatic
+      }
+    }
+    
     for (let i = 1; i < parts.length; i++) {
       const part = parts[i]
       let childNode: TrieNode | undefined
@@ -102,10 +111,18 @@ export default class RadixTrieRouter {
         currentNode.children.push(childNode)
       }
 
+      if (parts.length === 2 && !childNode.isParam) {
+        this._shortStatics[part] = childNode
+      }
+
       currentNode = childNode
     }
 
     currentNode.controller = route.controller
     currentNode.isPath = true
+  }
+
+  private _getShortStatic(name: string): TrieNode | null {
+    return this._shortStatics[name] ?? null
   }
 }
