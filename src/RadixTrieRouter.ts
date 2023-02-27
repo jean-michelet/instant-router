@@ -8,7 +8,6 @@ export interface TrieNode {
   isPath: boolean
   isParam: boolean
   children: TrieNode[]
-  cachedChildren: { [paramName: string]: TrieNode }
   params?: { [paramName: string]: string }
   regex?: RegExp
   controller?: ((req: IncomingMessage, res: ServerResponse) => void)
@@ -17,7 +16,7 @@ export interface TrieNode {
 export const TRIE_NODE_DEFAULT_REGEX = /^[^\/]+$/
 
 export default class RadixTrieRouter {
-  private readonly _root: TrieNode = { name: '/', fullName: '', isPath: false, isParam: false, children: [], cachedChildren: {} }
+  private readonly _root: TrieNode = { name: '/', fullName: '', isPath: false, isParam: false, children: [] }
 
   get root (): TrieNode {
     return this._root
@@ -30,33 +29,28 @@ export default class RadixTrieRouter {
     const parts = path.split('/')
     for (let i = 1; i < parts.length; i++) {
       const part = parts[i]
-      let childNode: TrieNode | undefined = currentNode.cachedChildren[part] || null
+      let childNode: TrieNode | undefined
 
-      if (childNode) {
-        currentNode = childNode
-      } else {
-        for (const node of currentNode.children) {
-          if (node.isParam) {
-            if ((node.regex != null) && !node.regex.test(part)) {
-              continue
-            }
-  
-            params[node.name.slice(1)] = part
-            childNode = node
-            break
-          } else if (node.name === part) {
-            childNode = node
-            break
+      for (const node of currentNode.children) {
+        if (node.isParam) {
+          if (node.regex != null && !node.regex.test(part)) {
+            continue
           }
+
+          params[node.name.slice(1)] = part
+          childNode = node
+          break
+        } else if (node.name === part) {
+          childNode = node
+          break
         }
-  
-        if (childNode == null) {
-          throw new ResourceNotFound(`Could not match node with part '${part}'`)
-        }
-  
-        currentNode.cachedChildren[part] = childNode
-        currentNode = childNode
       }
+
+      if (childNode == null) {
+        throw new ResourceNotFound(`Could not match node with part '${part}'`)
+      }
+
+      currentNode = childNode
     }
 
     if (!currentNode.isPath) {
@@ -95,7 +89,7 @@ export default class RadixTrieRouter {
 
       if (childNode == null) {
         const isParam = part.startsWith(':')
-        childNode = { name: part, fullName, isPath: false, isParam, children: [], cachedChildren: {} }
+        childNode = { name: part, fullName, isPath: false, isParam, children: [] }
         if (isParam) {
           let regex = TRIE_NODE_DEFAULT_REGEX
           if (route.requirements != null && route.requirements[part.slice(1)]) {
