@@ -8,7 +8,7 @@ is intended to serve as a learning material.
 I recommend to use [`find-my-way`](https://www.npmjs.com/package/find-my-way), an extremely powerful router.
 
 This router does not include middleware functionality, unlike many Node frameworks. 
-This is a personal design choice, I consider that a router is only dedicated to match an http request and a server resource (route), not the life cycle of an HTTP request.
+This is a personal design choice, I consider that a router is only dedicated to match an http request and a server resource (route).
 
 ## Usage
 
@@ -55,8 +55,7 @@ http.createServer((req, res) => {
 ```
 
 ## Benchmarks
-Benchmark comparisons, adapted script from: [https://github.com/delvedor/router-benchmark/tree/master/benchmarks](https://github.com/delvedor/router-benchmark/tree/master/benchmarks)
-
+Benchmark comparisons, adapted from: [https://github.com/delvedor/router-benchmark/tree/master/benchmarks](https://github.com/delvedor/router-benchmark/tree/master/benchmarks)
 
 ### Machine
 linux x64 | 8 vCPUs | 7.6GB Mem
