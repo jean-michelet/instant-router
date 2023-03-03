@@ -23,45 +23,44 @@ const routes = [
 ]
 
 function noop () {}
-var i = 0
-var time = 0
+let time = 0
 
 routes.forEach(({ methods, path }) => {
   router.addRoute({ methods, path, controller: noop})
 })
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router.match({ method: 'GET', path: '/user'})
 }
 print('short static:', time)
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router.match({ method: 'GET', path: '/user/comments'})
 }
 print('static with same radix:', time)
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router.match({ method: 'GET', path: '/user/lookup/username/john'})
 }
 print('dynamic route:', time)
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router.match({ method: 'GET', path: '/event/abcd1234/comments'})
 }
 print('mixed static dynamic:', time)
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router.match({ method: 'GET', path: '/very/deeply/nested/route/hello/there'})
 }
 print('long static:', time)
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router.match({ method: 'GET', path: '/user'})
   router.match({ method: 'GET', path: '/user/comments'})
   router.match({ method: 'GET', path: '/user/lookup/username/john'})

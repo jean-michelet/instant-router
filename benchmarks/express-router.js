@@ -20,8 +20,7 @@ const routes = [
 ]
 
 function noop () {}
-var i = 0
-var time = 0
+let time = 0
 
 routes.forEach(route => {
   if (route.method === 'GET') {
@@ -32,37 +31,37 @@ routes.forEach(route => {
 })
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router({ method: 'GET', url: '/user' }, null, noop)
 }
 print('short static:', time)
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router({ method: 'GET', url: '/user/comments' }, null, noop)
 }
 print('static with same radix:', time)
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router({ method: 'GET', url: '/user/lookup/username/john' }, null, noop)
 }
 print('dynamic route:', time)
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router({ method: 'GET', url: '/event/abcd1234/comments' }, null, noop)
 }
 print('mixed static dynamic:', time)
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router({ method: 'GET', url: '/very/deeply/nested/route/hello/there' }, null, noop)
 }
 print('long static:', time)
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router({ method: 'GET', url: '/user' }, null, noop)
   router({ method: 'GET', url: '/user/comments' }, null, noop)
   router({ method: 'GET', url: '/user/lookup/username/john' }, null, noop)

@@ -21,7 +21,8 @@
     "typescript": "^4.9.5"
   },
   "scripts": {
-    "test": "npx jest src/tests",
+    "test": "npx jest ./src/tests",
+    "benchmarks": "node ./benchmarks/run.js",
     "clean": "tsc --build --clean",
     "watch": "tsc --watch",
     "start": "npx nodemon ./dist/example/server.js",

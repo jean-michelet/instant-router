@@ -20,45 +20,44 @@ const routes = [
 ]
 
 function noop () {}
-var i = 0
-var time = 0
+let time = 0
 
 routes.forEach(route => {
   router.on(route.method, route.url, noop)
 })
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router.find('GET', '/user')
 }
 print('short static:', time)
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router.find('GET', '/user/comments')
 }
 print('static with same radix:', time)
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router.find('GET', '/user/lookup/username/john')
 }
 print('dynamic route:', time)
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router.find('GET', '/event/abcd1234/comments')
 }
 print('mixed static dynamic:', time)
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router.find('GET', '/very/deeply/nested/route/hello/there')
 }
 print('long static:', time)
 
 time = now()
-for (i = 0; i < operations; i++) {
+for (let i = 0; i < operations; i++) {
   router.find('GET', '/user')
   router.find('GET', '/user/comments')
   router.find('GET', '/user/lookup/username/john')

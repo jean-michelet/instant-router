@@ -5,7 +5,7 @@ const chalk = require('chalk')
 const operations = 1000000
 
 function now () {
-  var ts = process.hrtime()
+  const ts = process.hrtime()
   return (ts[0] * 1e3) + (ts[1] / 1e6)
 }
 
