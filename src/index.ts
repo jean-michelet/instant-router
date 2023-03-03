@@ -1,4 +1,4 @@
-import RadixTrieRouter from './RadixTrieRouter'
+import RadixTrieRouter from './RadixTreeRouter'
 import RequestContext from './RequestContext'
 import Router from './Router'
 import MethodNotAllowedError from './errors/MethodNotAllowedError'

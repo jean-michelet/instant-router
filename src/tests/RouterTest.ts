@@ -1,4 +1,4 @@
-import { TRIE_NODE_DEFAULT_REGEX } from '../RadixTrieRouter'
+import { TREE_NODE_DEFAULT_REGEX } from '../RadixTreeRouter'
 import RequestContext from '../RequestContext'
 import Router from '../Router'
 import MethodNotAllowedError from '../errors/MethodNotAllowedError'
@@ -36,22 +36,22 @@ describe('Router', () => {
 
   describe('addMethod', () => {
     it('should add a new RadixTreeRouter for a new method', () => {
-      expect(router["_radixTries"]).toEqual({})
+      expect(router["_radixTrees"]).toEqual({})
 
       router.addMethod('GET')
 
-      expect(router["_radixTries"]).toEqual({
+      expect(router["_radixTrees"]).toEqual({
         GET: expect.anything()
       })
     })
 
     it('should not add a new RadixTreeRouter for an existing method', () => {
-      expect(router["_radixTries"]).toEqual({})
+      expect(router["_radixTrees"]).toEqual({})
 
       router.addMethod('GET')
       router.addMethod('GET')
 
-      expect(router["_radixTries"]).toEqual({
+      expect(router["_radixTrees"]).toEqual({
         GET: expect.anything()
       })
     })
@@ -93,7 +93,7 @@ describe('Router', () => {
         isParam: true,
         children: [],
         params: { id: '123' },
-        regex: TRIE_NODE_DEFAULT_REGEX,
+        regex: TREE_NODE_DEFAULT_REGEX,
         controller
       })
     })
