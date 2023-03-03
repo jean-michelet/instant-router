@@ -17,6 +17,10 @@ export default class Router {
     })
   }
 
+  public get radixTrees(): { [methodName: string]: RadixTrieRouter } {
+    return this._radixTrees
+  }
+
   public match ({ path, method }: RequestContext) {
     if (!(method in this._radixTrees)) {
       throw new MethodNotAllowedError(method)
