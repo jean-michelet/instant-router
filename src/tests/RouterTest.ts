@@ -36,22 +36,22 @@ describe('Router', () => {
 
   describe('addMethod', () => {
     it('should add a new RadixTreeRouter for a new method', () => {
-      expect(router["_radixTrees"]).toEqual({})
+      expect(router._radixTrees).toEqual({})
 
       router.addMethod('GET')
 
-      expect(router["_radixTrees"]).toEqual({
+      expect(router._radixTrees).toEqual({
         GET: expect.anything()
       })
     })
 
     it('should not add a new RadixTreeRouter for an existing method', () => {
-      expect(router["_radixTrees"]).toEqual({})
+      expect(router._radixTrees).toEqual({})
 
       router.addMethod('GET')
       router.addMethod('GET')
 
-      expect(router["_radixTrees"]).toEqual({
+      expect(router._radixTrees).toEqual({
         GET: expect.anything()
       })
     })
