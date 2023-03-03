@@ -64,16 +64,6 @@ linux x64 | 8 vCPUs | 7.6GB Mem
 - node: 18.14.2
 
 ```
-=======================
- find-my-way benchmark
-=======================
-short static: 17,099,450 ops/sec
-static with same radix: 6,243,196 ops/sec
-dynamic route: 3,293,502 ops/sec
-mixed static dynamic: 4,176,557 ops/sec
-long static: 3,863,775 ops/sec
-all together: 876,926 ops/sec
-
 =====================
  ff-router benchmark
 =====================
@@ -83,6 +73,16 @@ dynamic route: 3,162,154 ops/sec
 mixed static dynamic: 3,150,744 ops/sec
 long static: 55,622,346 ops/sec
 all together: 1,380,149 ops/sec
+
+=======================
+ find-my-way benchmark
+=======================
+short static: 17,099,450 ops/sec
+static with same radix: 6,243,196 ops/sec
+dynamic route: 3,293,502 ops/sec
+mixed static dynamic: 4,176,557 ops/sec
+long static: 3,863,775 ops/sec
+all together: 876,926 ops/sec
 
 =======================================================
  express router benchmark (WARNING: includes handling)
