@@ -1,11 +1,9 @@
 # [WIP] FF Router
 
+> Work In Progress
+> Need additionnal tests and code reviews
+
 Ultra fast router using RadixTree data structure to match incoming HTTP requests.
-
-Although this router includes unit tests and benchmarks, its initial development 
-is intended to serve as a learning material. 
-
-I recommend to use [`find-my-way`](https://www.npmjs.com/package/find-my-way), an extremely powerful router.
 
 This router does not include middleware functionality, unlike many Node frameworks. 
 This is a personal design choice, I consider that a router is only dedicated to match an http request and a server resource (route).
