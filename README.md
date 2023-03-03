@@ -1,7 +1,6 @@
 # [WIP] FF Router
 
-> Work In Progress
-> Need additionnal tests and code reviews
+> Work In Progress - Need additionnal tests and code reviews
 
 Ultra fast router using RadixTree data structure to match incoming HTTP requests.
 
