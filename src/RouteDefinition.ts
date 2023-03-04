@@ -1,4 +1,4 @@
-export interface RouteDefinition {
+export default interface RouteDefinition {
   path: string
   methods: string | string[]
   controller: ((req: any, res: any) => void)

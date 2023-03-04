@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http'
-import { RouteDefinition } from './RouteDefinition'
+import RouteDefinition from './RouteDefinition'
 import ResourceNotFound from './errors/ResourceNotFound'
 
 export interface TreeNode {

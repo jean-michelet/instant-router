@@ -5,10 +5,11 @@
   "version": "1.0.0",
   "entry point": "dist/index.js",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "author": "Jean Michelet",
   "license": "MIT",
   "files": [
-    "/dist"
+    "/dist/**/*"
   ],
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
@@ -28,8 +29,12 @@
     "benchmarks": "node ./benchmarks/run.js",
     "clean": "tsc --build --clean",
     "watch": "tsc --watch",
+    "build": "tsc",
     "start": "npx nodemon ./dist/example/server.js",
-    "format": "ts-standard --fix ./src"
+    "format": "ts-standard --fix ./src",
+    "prepare" : "npm run clean && npm run build",
+    "prepublishOnly" : "npm test && npm run format",
+    "preversion": "npm run format"
   },
   "dependencies": {}
 }

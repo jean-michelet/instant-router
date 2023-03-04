@@ -1,15 +1,14 @@
 {
     "$schema": "https://json.schemastore.org/tsconfig",
-    "display": "Node 16",
+    "display": "Node 18",
   
     "compilerOptions": {
       "rootDir": "src",
-      "lib": ["ES2021"],
-      "module": "commonjs",
-      "target": "ES2021",
-
+      "declaration": true,
+      "lib": ["ES2020"],
+      "module": "CommonJS",
+      "target": "ES2020",
       "outDir": "dist",
-  
       "strict": true,
       "esModuleInterop": true,
       "skipLibCheck": true,

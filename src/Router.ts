@@ -1,6 +1,6 @@
 import RadixTrieRouter from './RadixTreeRouter'
 import RequestContext from './RequestContext'
-import { RouteDefinition } from './RouteDefinition'
+import RouteDefinition from './RouteDefinition'
 import MethodNotAllowedError from './errors/MethodNotAllowedError'
 
 export default class Router {
