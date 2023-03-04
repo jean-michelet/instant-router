@@ -4,7 +4,7 @@
 
 Ultra fast router using RadixTree data structure to match incoming HTTP requests.
 
-This router does not include middleware functionality, unlike many Node frameworks. 
+This router does not include middleware functionality, unlike many Node routers. 
 This is a personal design choice, I consider that a router is only dedicated to match an http request and a server resource (route).
 
 ## Usage
