@@ -19,9 +19,9 @@ describe('RequestContext', () => {
 
   describe('fromIncomingMessage', () => {
     it('should create a new RequestContext from an IncomingMessage', () => {
-      const req = { url: '/users', method: 'POST' } as IncomingMessage
+      const req = { url: '/users', method: 'POST' }
 
-      const context = RequestContext.fromIncomingMessage(req)
+      const context = RequestContext.fromIncomingMessage(req as IncomingMessage)
       expect(context.path).toEqual('/users')
       expect(context.method).toEqual('POST')
     })

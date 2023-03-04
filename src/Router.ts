@@ -1,4 +1,4 @@
-import RadixTrieRouter from './RadixTreeRouter'
+import RadixTrieRouter, { TreeNode } from './RadixTreeRouter'
 import RequestContext from './RequestContext'
 import RouteDefinition from './RouteDefinition'
 import MethodNotAllowedError from './errors/MethodNotAllowedError'
@@ -6,7 +6,7 @@ import MethodNotAllowedError from './errors/MethodNotAllowedError'
 export default class Router {
   private _radixTrees: { [methodName: string]: RadixTrieRouter } = {}
 
-  public addRoute (route: RouteDefinition) {
+  public addRoute (route: RouteDefinition): void {
     if (typeof route.methods === 'string') {
       route.methods = [route.methods]
     }
@@ -17,11 +17,11 @@ export default class Router {
     })
   }
 
-  public get radixTrees(): { [methodName: string]: RadixTrieRouter } {
+  public get radixTrees (): { [methodName: string]: RadixTrieRouter } {
     return this._radixTrees
   }
 
-  public match ({ path, method }: RequestContext) {
+  public match ({ path, method }: RequestContext): TreeNode {
     if (!(method in this._radixTrees)) {
       throw new MethodNotAllowedError(method)
     }

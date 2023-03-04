@@ -37,6 +37,10 @@ export default class RequestContext {
     return context
   }
 
+  get path (): string {
+    return this._path
+  }
+
   set path (path: string) {
     path = path.replace(/\/+$/, '')
 
@@ -47,6 +51,10 @@ export default class RequestContext {
     this._path = path
   }
 
+  get method (): string {
+    return this._method
+  }
+
   set method (method: string) {
     method = method.toUpperCase()
 
@@ -55,13 +63,5 @@ export default class RequestContext {
     }
 
     this._method = method
-  }
-
-  get path (): string {
-    return this._path
-  }
-
-  get method (): string {
-    return this._method
   }
 }

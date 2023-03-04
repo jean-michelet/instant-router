@@ -13,7 +13,7 @@ export interface TreeNode {
   controller?: ((req: IncomingMessage, res: ServerResponse) => void)
 }
 
-export const TREE_NODE_DEFAULT_REGEX = /^[^\/]+$/
+export const TREE_NODE_DEFAULT_REGEX = /^[^/]+$/
 
 export default class RadixTreeRouter {
   private readonly _root: TreeNode = { name: '/', fullName: '', isPath: false, isParam: false, children: [] }
@@ -69,7 +69,7 @@ export default class RadixTreeRouter {
     return currentNode
   }
 
-  addRouteNode (route: RouteDefinition) {
+  addRouteNode (route: RouteDefinition): void {
     const path = route.path
 
     let currentNode: TreeNode = this._root
@@ -103,7 +103,7 @@ export default class RadixTreeRouter {
         if (isParam) {
           isStaticRoute = false
           let regex = TREE_NODE_DEFAULT_REGEX
-          if (route.requirements != null && route.requirements[part.slice(1)]) {
+          if (route.requirements !== undefined && route.requirements[part.slice(1)] !== undefined) {
             regex = new RegExp(`^${route.requirements[part.slice(1)]}$`)
           }
 

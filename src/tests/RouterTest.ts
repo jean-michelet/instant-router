@@ -77,7 +77,7 @@ describe('Router', () => {
     })
 
     it('should return the matched TrieNode', () => {
-      const controller = () => {}
+      const controller = (): any => {}
       router.addRoute({
         path: '/users/:id',
         methods: 'GET',
