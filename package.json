@@ -2,7 +2,7 @@
   "package-name": "instant-router",
   "name": "instant-router",
   "description": "Ultra fast router using RadixTree data structure to match incoming HTTP requests.",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "entry point": "dist/index.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

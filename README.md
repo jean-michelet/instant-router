@@ -8,10 +8,10 @@ This is a personal design choice, I consider that a router is only dedicated to 
 ## Usage
 ```js
 // Common JS
-// const { Router, MethodNotAllowedError, RequestContext, ResourceNotFound} = require("ff-router")
+// const { Router, MethodNotAllowedError, RequestContext, ResourceNotFound} = require("instant-router")
 // const http = require("http")
 
-import { Router, MethodNotAllowedError, RequestContext, ResourceNotFound } from 'ff-router';
+import { Router, MethodNotAllowedError, RequestContext, ResourceNotFound } from 'instant-router';
 import http from 'node:http';
 
 const routes = [
@@ -55,7 +55,7 @@ http.createServer((req, res) => {
 
 ### With TypeScript
 ```ts
-import { Router, MethodNotAllowedError, RequestContext, ResourceNotFound } from 'ff-router'
+import { Router, MethodNotAllowedError, RequestContext, ResourceNotFound } from 'instant-router'
 import http, { IncomingMessage, ServerResponse } from 'http'
 
 interface MyIncomingMessage extends IncomingMessage {
@@ -112,7 +112,7 @@ linux x64 | 8 vCPUs | 7.6GB Mem
 
 ```
 =====================
- ff-router benchmark
+ instant-router benchmark
 =====================
 short static: 232,598,222 ops/sec
 static with same radix: 56,142,144 ops/sec
