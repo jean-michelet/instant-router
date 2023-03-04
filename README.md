@@ -10,7 +10,7 @@ This is a personal design choice, I consider that a router is only dedicated to 
 ## Usage
 ```js
 // Common JS
-// const { Router, RequestContext, ResourceNotFound} = require("ff-router")
+// const { Router, MethodNotAllowedError, RequestContext, ResourceNotFound} = require("ff-router")
 // const http = require("http")
 
 import { Router, MethodNotAllowedError, RequestContext, ResourceNotFound } from 'ff-router';
