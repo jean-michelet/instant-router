@@ -16,12 +16,12 @@ export interface TreeNode {
 export const TREE_NODE_DEFAULT_REGEX = /^[^/]+$/
 
 export default class RadixTreeRouter {
-  private readonly _root: TreeNode = { 
-    name: '/', 
-    fullName: '', 
-    isPath: false, 
+  private readonly _root: TreeNode = {
+    name: '/',
+    fullName: '',
+    isPath: false,
     isParam: false,
-    children: [] 
+    children: []
   }
 
   private _staticRoutes: { [paramName: string]: TreeNode } = {}
@@ -120,7 +120,7 @@ export default class RadixTreeRouter {
       currentNode = childNode
     }
 
-    if (!currentNode.fullName.includes("/:")) {
+    if (!currentNode.fullName.includes('/:')) {
       this._staticRoutes[path] = currentNode
     }
 
