@@ -8,7 +8,7 @@ export interface TreeNode {
   isPath: boolean
   isParam: boolean
   children: TreeNode[]
-  params?: { [paramName: string]: string }
+  params?: ({ [paramName: string]: string })
   regex?: RegExp
   controller?: ((req: IncomingMessage, res: ServerResponse) => void)
 }
@@ -16,7 +16,14 @@ export interface TreeNode {
 export const TREE_NODE_DEFAULT_REGEX = /^[^/]+$/
 
 export default class RadixTreeRouter {
-  private readonly _root: TreeNode = { name: '/', fullName: '', isPath: false, isParam: false, children: [] }
+  private readonly _root: TreeNode = { 
+    name: '/', 
+    fullName: '', 
+    isPath: false, 
+    isParam: false,
+    children: [] 
+  }
+
   private _staticRoutes: { [paramName: string]: TreeNode } = {}
 
   get root (): TreeNode {
@@ -74,7 +81,6 @@ export default class RadixTreeRouter {
 
     let currentNode: TreeNode = this._root
     const parts = path.split('/')
-    let isStaticRoute = true
     for (let i = 1; i < parts.length; i++) {
       const part = parts[i]
       let childNode: TreeNode | undefined
@@ -86,7 +92,6 @@ export default class RadixTreeRouter {
         }
 
         if (node.isParam) {
-          isStaticRoute = false
           if (node.name.slice(1) === part) {
             childNode = node
             break
@@ -97,11 +102,10 @@ export default class RadixTreeRouter {
         }
       }
 
-      if (childNode == null) {
+      if (childNode === undefined) {
         const isParam = part.startsWith(':')
         childNode = { name: part, fullName, isPath: false, isParam, children: [] }
         if (isParam) {
-          isStaticRoute = false
           let regex = TREE_NODE_DEFAULT_REGEX
           if (route.requirements !== undefined && route.requirements[part.slice(1)] !== undefined) {
             regex = new RegExp(`^${route.requirements[part.slice(1)]}$`)
@@ -116,7 +120,7 @@ export default class RadixTreeRouter {
       currentNode = childNode
     }
 
-    if (isStaticRoute) {
+    if (!currentNode.fullName.includes("/:")) {
       this._staticRoutes[path] = currentNode
     }
 

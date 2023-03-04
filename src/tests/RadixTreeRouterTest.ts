@@ -1,4 +1,5 @@
 import RadixTreeRouter, { TREE_NODE_DEFAULT_REGEX } from '../RadixTreeRouter'
+import RouteDefinition from '../RouteDefinition'
 
 describe('RadixTreeRouter', () => {
   describe('addRouteNode', () => {
@@ -203,6 +204,16 @@ describe('RadixTreeRouter', () => {
       const node = router.find('/users/123')
       expect(node.name.slice(1)).toEqual('id')
       expect(node.params).toEqual({ id: '123' })
+    })
+
+    it('should prioritize static routes over dynamic routes', () => {
+      const router = new RadixTreeRouter()
+      router.addRouteNode({path: '/users/:userId', methods: "GET", controller: () => {}})
+      router.addRouteNode({path: '/users/profile', methods: "GET", controller: () => {}})
+
+      const node = router.find('/users/profile')
+      expect(node.params).toBe(undefined)
+      expect(node.fullName).toBe('/users/profile')
     })
 
     it('should throws an error when no path exists for the given string', () => {
