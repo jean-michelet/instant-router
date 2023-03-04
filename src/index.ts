@@ -5,11 +5,9 @@ import MethodNotAllowedError from './errors/MethodNotAllowedError'
 import ResourceNotFound from './errors/ResourceNotFound'
 
 export {
+  Router,
   RadixTrieRouter,
   RequestContext,
-  Router,
   MethodNotAllowedError,
   ResourceNotFound
 }
-
-export default Router

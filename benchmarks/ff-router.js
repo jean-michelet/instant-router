@@ -2,7 +2,7 @@
 'use strict'
 
 const { title, now, print, operations } = require('./utils')
-const {default: Router } = require('../dist/index.js');
+const { Router } = require('../dist/index.js');
 
 const router = new Router()
 
