@@ -2,7 +2,7 @@
   "package-name": "instant-router",
   "name": "instant-router",
   "description": "Ultra fast router using RadixTree data structure to match incoming HTTP requests.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "entry point": "dist/index.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -40,5 +40,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/jean-michelet/instant-router"
-  }
+  },
+  "keywords": [
+    "router",
+    "routing",
+    "fast",
+    "typescript",
+    "no-framework"
+  ]
 }
