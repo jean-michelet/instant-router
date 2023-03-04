@@ -1,3 +1,3 @@
 require("./find-my-way.js")
-require("./ff-router.js")
+require("./instant-router.js")
 require("./express-router.js")
