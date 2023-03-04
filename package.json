@@ -1,6 +1,6 @@
 {
-  "package-name": "ff-router",
-  "name": "ff-router",
+  "package-name": "instant-router",
+  "name": "instant-router",
   "description": "Ultra fast router using RadixTree data structure to match incoming HTTP requests.",
   "version": "1.0.0",
   "entry point": "dist/index.js",
