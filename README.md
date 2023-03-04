@@ -1,6 +1,4 @@
-# [WIP] FF Router
-
-> Work In Progress - Need additionnal tests and code reviews
+# [BETA] Instant Router
 
 Ultra fast router using RadixTree data structure to match incoming HTTP requests.
 
