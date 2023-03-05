@@ -157,7 +157,7 @@ To try to match a route from an HTTP request, you must use the `match` method.
 
 Example:
 ```js
-const context = new RequestContext('/users/:id', 'GET')
+const context = new RequestContext('/users/1', 'GET')
 const { controller, params } = router.match(context);
 ```
 
