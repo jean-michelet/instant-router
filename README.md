@@ -205,17 +205,15 @@ The `RequestContext` class help you to pass relevant HTTP request data to the `m
 
 ### Usage:
 ```js
-import { IncomingMessage } from 'http'
-import RequestContext from './RequestContext'
+import RequestContext from "../RequestContext"
+import http from 'node:http';
 
-const req = new IncomingMessage()
-req.url = '/users/1'
-req.method = 'POST'
+http.createServer((req, res) => {
+    const context = RequestContext.fromIncomingMessage(req)
 
-const context = RequestContext.fromIncomingMessage(req)
-
-console.log(context.path) // "/users/1"
-console.log(context.method) // "POST"
+    console.log(context.path) // "/users/1"
+    console.log(context.method) // "POST"
+})
 ```
 
 By default, `RequestContext` supports only the following http methods:

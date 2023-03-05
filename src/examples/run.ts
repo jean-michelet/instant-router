@@ -1,8 +1,9 @@
-import RadixTreeRouter from '../RadixTreeRouter'
+import RequestContext from "../RequestContext"
+import http from 'node:http';
 
-const router = new RadixTreeRouter()
-router.addRouteNode({ path: '/users/:userId/5', methods: 'GET', controller: () => {} })
-router.addRouteNode({ path: '/users/profile/45', methods: 'GET', controller: () => {} })
+http.createServer((req, res) => {
+    const context = RequestContext.fromIncomingMessage(req)
 
-const node = router.find('/users/profile/45')
-console.log(node)
+    console.log(context.path) // "/users/1"
+    console.log(context.method) // "POST"
+})
