@@ -4,7 +4,7 @@ import RouteDefinition from './RouteDefinition'
 import UrlGenerator, { urlGeneratorOptions } from './UrlGenerator'
 import MethodNotAllowedError from './errors/MethodNotAllowedError'
 
-export type routerConfiguration = {
+export interface routerConfiguration {
   urlGenerator?: urlGeneratorOptions
 }
 

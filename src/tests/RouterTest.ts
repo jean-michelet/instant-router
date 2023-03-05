@@ -2,7 +2,6 @@ import { TREE_NODE_DEFAULT_REGEX } from '../RadixTreeRouter'
 import RequestContext from '../RequestContext'
 import RouteDefinition from '../RouteDefinition'
 import Router, { routerConfiguration } from '../Router'
-import UrlGenerator from '../UrlGenerator'
 import MethodNotAllowedError from '../errors/MethodNotAllowedError'
 import ResourceNotFound from '../errors/ResourceNotFound'
 
@@ -15,9 +14,9 @@ describe('Router', () => {
 
   describe('constructor', () => {
     it('should create a new Router instance', () => {
-      const router = new Router();
-      expect(router).toBeInstanceOf(Router);
-    });
+      const router = new Router()
+      expect(router).toBeInstanceOf(Router)
+    })
 
     it('should create a new Router instance with custom UrlGenerator options if provided', () => {
       const options: routerConfiguration = {
@@ -27,26 +26,26 @@ describe('Router', () => {
           host: 'example.com',
           port: 443
         }
-      };
+      }
 
-      const router = new Router(options);
-      expect(router['_urlGenerator']['_options']).toEqual(options.urlGenerator);
-    });
-  });
+      const router = new Router(options)
+      expect(router['_urlGenerator']['_options']).toEqual(options.urlGenerator)
+    })
+  })
 
   describe('generateUrl', () => {
     it('should generate a URL with the provided name, parameters, and options', () => {
-      const router = new Router();
+      const router = new Router()
       const route: RouteDefinition = {
         path: '/users/:id',
         methods: ['GET'],
         controller: () => {}
-      };
+      }
 
-      router.addNamedRoute('user', route);
-      const generatedUrl = router.generateUrl('user', { id: 1 }, { isAbsolute: true });
-      expect(generatedUrl).toBe('http://localhost:3000/users/1');
-    });
+      router.addNamedRoute('user', route)
+      const generatedUrl = router.generateUrl('user', { id: 1 }, { isAbsolute: true })
+      expect(generatedUrl).toBe('http://localhost:3000/users/1')
+    })
 
     it('should generate a URL taking into account the default configuration passed from the router constructor', () => {
       const options: routerConfiguration = {
@@ -56,25 +55,25 @@ describe('Router', () => {
           host: 'example.com',
           port: 443
         }
-      };
+      }
 
-      const router = new Router(options);
+      const router = new Router(options)
       const route: RouteDefinition = {
         path: '/users/:id',
         methods: ['GET'],
         controller: () => {}
-      };
+      }
 
-      router.addNamedRoute('user', route);
-      const generatedUrl = router.generateUrl('user', { id: 1 });
-      expect(generatedUrl).toBe('https://example.com:443/users/1');
-    });
+      router.addNamedRoute('user', route)
+      const generatedUrl = router.generateUrl('user', { id: 1 })
+      expect(generatedUrl).toBe('https://example.com:443/users/1')
+    })
 
     it('should throw an error if the named route does not exist', () => {
-      const router = new Router();
-      expect(() => router.generateUrl('user', { id: 1 })).toThrowError('Named route "user" doesn\'t exist.');
-    });
-  });
+      const router = new Router()
+      expect(() => router.generateUrl('user', { id: 1 })).toThrowError('Named route "user" doesn\'t exist.')
+    })
+  })
 
   describe('addRoute', () => {
     it('should add a route for each specified method', () => {

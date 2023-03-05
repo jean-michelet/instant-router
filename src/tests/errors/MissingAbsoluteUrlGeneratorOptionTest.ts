@@ -1,4 +1,4 @@
-import MissingAbsoluteUrlGeneratorOption from "../../errors/MissingAbsoluteUrlGeneratorOption"
+import MissingAbsoluteUrlGeneratorOption from '../../errors/MissingAbsoluteUrlGeneratorOption'
 
 describe('MissingAbsoluteUrlGeneratorOption', () => {
   it('should create an instance with the correct message', () => {

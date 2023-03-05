@@ -31,12 +31,12 @@ router.addNamedRoute('comment', {
   controller: () => {}
 })
 
-const url = router.generateUrl('comment', 
-  { postId: 1, commentId: 10 }, 
+const url = router.generateUrl('comment',
+  { postId: 1, commentId: 10 },
   { isAbsolute: true }
 )
 
-console.log(url); // "http://localhost:3000/posts/1/comments/10"
+console.log(url) // "http://localhost:3000/posts/1/comments/10"
 
 http.createServer((req, res) => {
   const context = RequestContext.fromIncomingMessage(req)

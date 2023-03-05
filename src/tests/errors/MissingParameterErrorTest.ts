@@ -1,4 +1,4 @@
-import MissingParameterError from "../../errors/MissingParameterError"
+import MissingParameterError from '../../errors/MissingParameterError'
 
 describe('MissingParameterError', () => {
   it('should create a correct error message', () => {

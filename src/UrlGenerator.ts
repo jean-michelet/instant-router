@@ -2,7 +2,7 @@ import RouteDefinition from './RouteDefinition'
 import MissingAbsoluteUrlGeneratorOption from './errors/MissingAbsoluteUrlGeneratorOption'
 import MissingParameterError from './errors/MissingParameterError'
 
-export type urlGeneratorOptions = {
+export interface urlGeneratorOptions {
   isAbsolute?: boolean
   scheme?: string
   host?: string
@@ -82,8 +82,8 @@ export default class UrlGenerator {
 
     const queryParameters = Object.entries(parameters)
     if (queryParameters.length > 0) {
-      url += "?"
-      
+      url += '?'
+
       const encodedParams = []
       for (const [name, value] of queryParameters) {
         encodedParams.push(`${name}=${encodeURIComponent(value)}`)

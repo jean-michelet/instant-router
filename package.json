@@ -2,7 +2,7 @@
   "package-name": "instant-router",
   "name": "instant-router",
   "description": "Ultra fast router using RadixTree data structure to match incoming HTTP requests.",
-  "version": "0.0.11",
+  "version": "0.1.0",
   "entry point": "dist/index.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -33,7 +33,7 @@
     "start": "npx nodemon ./dist/example/server.js",
     "format": "ts-standard --fix ./src",
     "prepare": "npm run clean && npm run build",
-    "prepublishOnly": "npm test && npm run format",
+    "prepublishOnly": "npm test",
     "preversion": "npm run format"
   },
   "dependencies": {},
