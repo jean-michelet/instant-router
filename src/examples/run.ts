@@ -1,9 +1,18 @@
-import http from 'node:http'
-import RequestContext from '../RequestContext'
+import Router from "../Router";
 
-http.createServer((req, res) => {
-  const context = RequestContext.fromIncomingMessage(req)
+const router = new Router();
 
-  console.log(context.path) // "/users/1"
-  console.log(context.method) // "POST"
+// Name the routes to use UrlGenerator
+router.addNamedRoute('comment', {
+  path: '/posts/:postId/comments/:commentId',
+  methods: ['GET'],
+  controller: () => {}
 })
+
+const url = router.generateUrl('comment', 
+  { postId: 1, commentId: 10, foo: 4, bar: "hello "  }, 
+  { isAbsolute: true }
+)
+
+// "http://localhost:3000/posts/1/comments/10?foo=10&bar="hello"
+console.log(url); 

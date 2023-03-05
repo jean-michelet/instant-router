@@ -1,9 +1,10 @@
 # [BETA] Instant Router
 
-Ultra fast router to match incoming HTTP requests.
+Ultra fast router to match incoming HTTP requests and generate urls.
 
 * Uses a radix tree datastructure.
 * Highly optimized to match static routes, [check the benchmarks](#benchmarks). 
+* Contains a url generator for relative and absolute paths.
 * Doesn't contain middlewares.
 
 ## Summary
@@ -13,6 +14,7 @@ Ultra fast router to match incoming HTTP requests.
 - [Router class](#router-class)
   * [Adding routes](#adding-routes)
   * [Matching](#matching)
+  * [Generate urls](#generate-urls)
 - [RequestContext class](#requestcontext-class)
 - [Benchmarks](#benchmarks)
 
@@ -28,6 +30,7 @@ yarn add instant-router
 ```
 
 ## Usage
+### Matching
 ```js
 // Common JS
 // const { Router, MethodNotAllowedError, RequestContext, ResourceNotFound} = require("instant-router")
@@ -77,52 +80,25 @@ http.createServer((req, res) => {
 
 :arrow_up::arrow_up::arrow_up: [Go back to summary](#summary)
 
-### With TypeScript
-```ts
-import { Router, MethodNotAllowedError, RequestContext, ResourceNotFound } from 'instant-router'
-import http, { IncomingMessage, ServerResponse } from 'http'
+### Url generation
+```js
+import { Router } from 'instant-router';
 
-interface MyIncomingMessage extends IncomingMessage {
-  params: { [paramName: string]: string | number }
-}
+const router = new Router();
 
-const routes = [
-  {
-    path: '/static',
-    methods: ['GET'],
-    controller: (req: IncomingMessage, res: ServerResponse) => res.end('Hello, World!')
-  },
-  {
-    path: '/users/:name',
-    methods: ['GET'],
-    requirements: { name: '[a-zA-Z]+' },
-    controller: (req: MyIncomingMessage, res: ServerResponse) => res.end(`Hello ${req.params.name}!`)
-  }
-]
+// Name the routes to use UrlGenerator
+router.addNamedRoute('comment', {
+  path: '/posts/:postId/comments/:commentId',
+  methods: ['GET'],
+  controller: () => {}
+})
 
-const router = new Router()
-routes.forEach(route => router.addRoute(route))
+const url = router.generateUrl('comment', 
+  { postId: 1, commentId: 10, foo: 1 }, 
+  { isAbsolute: true }
+)
 
-http.createServer((req, res) => {
-  try {
-    const context = RequestContext.fromIncomingMessage(req)
-    const { controller, params } = router.match(context);
-
-    (controller as Function)({ ...req, params }, res)
-  } catch (error) {
-    console.error(error)
-    if (error instanceof ResourceNotFound) {
-      res.writeHead(404)
-      res.end('404 - Resource not found')
-    } else if (error instanceof MethodNotAllowedError) {
-      res.writeHead(405)
-      res.end(`405 - Method ${context.method} not allowed`)
-    } else {
-      res.writeHead(500)
-      res.end('500 - Internal server error')
-    }
-  }
-}).listen(3000, () => console.log('Listening on localhost:3000'))
+console.log(url); // "http://localhost:3000/posts/1/comments/10?foo=1"
 ```
 
 :arrow_up::arrow_up::arrow_up: [Go back to summary](#summary)
@@ -198,10 +174,59 @@ See [`Usage`](#usage) for examples.
 
 :arrow_up::arrow_up::arrow_up: [Go back to summary](#summary)
 
-## RequestContext class
-The `RequestContext` class help you to pass relevant HTTP request data to the `match` method.
+### Generate urls
+To generate urls, you can use the `generateUrl` method.
+
+Example:
+```js
+// Name the routes to use UrlGenerator
+router.addNamedRoute('comment', {
+  path: '/posts/:postId/comments/:commentId',
+  methods: ['GET'],
+  controller: () => {}
+})
+
+const url = router.generateUrl('comment', 
+  { postId: 1, commentId: 10 }, 
+  { isAbsolute: true }
+)
+```
+
+#### **name** 
+Is the name of the route to generate the URL for.
+
+#### **parameters** 
+Optional object containing key-value pairs of route parameter names.
+If a passed parameter does not match any route parameter, it is added to the url as a query parameter.
+
+#### **options**
+```ts
+type urlGeneratorOptions = {
+  isAbsolute?: boolean
+  scheme?: string
+  host?: string
+  port?: number
+}
+```
+
+You can set the default options directly when you instantiate `Router`:
+```js
+const options = {
+  urlGenerator: {
+    isAbsolute: true,
+    scheme: 'https', // must be defined if isAbsolute is true
+    host: 'example.com', // must be defined if isAbsolute is true
+    port: 443 // can be undefined even if isAbsolute is true
+  }
+};
+
+const router = new Router(options);
+```
+
+:arrow_up::arrow_up::arrow_up: [Go back to summary](#summary)
 
 ## RequestContext class
+The `RequestContext` class help you to pass relevant HTTP request data to the `match` method.
 
 ### Usage:
 ```js
