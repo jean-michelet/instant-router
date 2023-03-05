@@ -29,7 +29,7 @@ describe('Router', () => {
       }
 
       const router = new Router(options)
-      expect(router.urlGenerator.options).toEqual(null)
+      expect(router.urlGenerator.options).toEqual(options.urlGenerator)
     })
   })
 
