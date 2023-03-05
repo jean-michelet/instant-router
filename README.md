@@ -1,11 +1,23 @@
 # [BETA] Instant Router
 
-Ultra fast router using RadixTree data structure to match incoming HTTP requests.
+Ultra fast router to match incoming HTTP requests.
 
-This router does not include middleware functionality, unlike many Node routers. 
-This is a personal design choice, I consider that a router is only dedicated to match an http request and a server resource (route).
+* Uses a radix tree datastructure.
+* Highly optimized to match static routes, [check the benchmarks](#benchmarks). 
+* Doesn't contain middlewares.
 
-## Installation
+## Summary
+
+- [Install](#install)
+- [Usage](#usage)
+- [Router class](#router-class)
+  * [Adding routes](#adding-routes)
+  * [Matching](#matching)
+- [RequestContext class](#requestcontext-class)
+- [Benchmarks](#benchmarks)
+
+
+## Install
 
 ```
 npm install instant-router
@@ -63,6 +75,8 @@ http.createServer((req, res) => {
 }).listen(3000, () => console.log('Listening on localhost:3000'))
 ```
 
+:arrow_up::arrow_up::arrow_up: [Go back to summary](#summary)
+
 ### With TypeScript
 ```ts
 import { Router, MethodNotAllowedError, RequestContext, ResourceNotFound } from 'instant-router'
@@ -111,6 +125,114 @@ http.createServer((req, res) => {
 }).listen(3000, () => console.log('Listening on localhost:3000'))
 ```
 
+:arrow_up::arrow_up::arrow_up: [Go back to summary](#summary)
+
+## Router class
+
+### Adding routes
+To add a route, you must use the `addRoute` method.
+
+Example:
+```js
+router.addRoute({
+  path: '/users/:id',
+  methods: ['GET'],
+  requirements: { name: '\\d+' },
+  controller: (req, res) => res.end("Matched!")
+})
+```
+
+#### **path**
+  * Should be a string that represents the URL path for the route. 
+  * Can contain parameters in the format of `/my-path/:parameterName`.
+  * Parameters in the URL path can be constrained by a regex using the `requirements` property.
+
+#### **methods**
+  * Should be a string or an array of strings that represents the HTTP methods.
+  * Valid methods are defined automatically via the route configuration or explicitly using the `addMethods` method.
+
+#### **requirements**
+  * Is an optional object that defines validation requirements for parameters in the URL path.
+  * Keys (parameter name) and values (regex) must be of type string.
+
+:warning: The router automatically adds the start and end delimiters, do not add them by yourself. 
+
+Bad: `"^\\d+$"`, good: `"\\d+"`
+
+#### **controller**
+  * Should be a function that represents the handler for the route.
+  * Takes two arguments supposed to represent the request and the response. Note that it will be your responsibility to call the controller.
+
+#### TypeScript interface of **`RouteDefinition`**:
+```ts
+interface RouteDefinition {
+  path: string
+  methods: string | string[]
+  controller: ((req: any, res: any) => void)
+  requirements?: { [paramName: string]: string }
+}
+```
+
+:arrow_up::arrow_up::arrow_up: [Go back to summary](#summary)
+
+### Matching
+To try to match a route from an HTTP request, you must use the `match` method.
+
+Example:
+```js
+const context = new RequestContext('/users/:id', 'GET')
+const { controller, params } = router.match(context);
+```
+
+The `RequestContext` class help you to pass relevant HTTP request data 
+to the `match` method. You can read its documentation [here](#requestcontext-class).
+
+Currently, the `match` method returns a `TreeNode`, but this will no longer be the case 
+from the first stable release. You will still have access to `controller` and `params` though.
+
+#### Errors
+  * If the requets HTTP method does not match any existing route, a `MethodNotAllowedError` is triggered.
+  * If no route is matched, a `ResourceNotFound` error is triggered.
+
+See [`Usage`](#usage) for examples.
+
+:arrow_up::arrow_up::arrow_up: [Go back to summary](#summary)
+
+## RequestContext class
+The `RequestContext` class help you to pass relevant HTTP request data to the `match` method.
+
+## RequestContext class
+
+### Usage:
+```js
+import { IncomingMessage } from 'http'
+import RequestContext from './RequestContext'
+
+const req = new IncomingMessage()
+req.url = '/users/1'
+req.method = 'POST'
+
+const context = RequestContext.fromIncomingMessage(req)
+
+console.log(context.path) // "/users/1"
+console.log(context.method) // "POST"
+```
+
+By default, `RequestContext` supports only the following http methods:
+```
+GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH
+```
+
+But you can add more freely via the static property `availableHttpMethods`:
+```js
+RequestContext.availableHttpMethods.push("FOO")
+
+const context = new RequestContext("/hello", "FOO")
+console.log(context.method) // "FOO"
+```
+
+:arrow_up::arrow_up::arrow_up: [Go back to summary](#summary)
+
 ## Benchmarks
 Benchmark comparisons, adapted from: [https://github.com/delvedor/router-benchmark/tree/master/benchmarks](https://github.com/delvedor/router-benchmark/tree/master/benchmarks)
 
@@ -151,3 +273,5 @@ mixed static dynamic: 831,342 ops/sec
 long static: 860,493 ops/sec
 all together: 221,828 ops/sec
 ```
+
+:arrow_up::arrow_up::arrow_up: [Go back to summary](#summary)
