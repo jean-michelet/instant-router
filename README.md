@@ -205,8 +205,8 @@ The `RequestContext` class help you to pass relevant HTTP request data to the `m
 
 ### Usage:
 ```js
-import RequestContext from "../RequestContext"
 import http from 'node:http';
+import RequestContext from "../RequestContext"
 
 http.createServer((req, res) => {
     const context = RequestContext.fromIncomingMessage(req)
