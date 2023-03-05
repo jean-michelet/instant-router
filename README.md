@@ -54,8 +54,8 @@ const router = new Router()
 routes.forEach(route => router.addRoute(route))
 
 http.createServer((req, res) => {
-  const context = RequestContext.fromIncomingMessage(req)
   try {
+    const context = RequestContext.fromIncomingMessage(req)
     const { controller, params } = router.match(context);
 
     controller({ ...req, params }, res)
@@ -104,8 +104,8 @@ const router = new Router()
 routes.forEach(route => router.addRoute(route))
 
 http.createServer((req, res) => {
-  const context = RequestContext.fromIncomingMessage(req)
   try {
+    const context = RequestContext.fromIncomingMessage(req)
     const { controller, params } = router.match(context);
 
     (controller as Function)({ ...req, params }, res)
@@ -191,7 +191,7 @@ Currently, the `match` method returns a `TreeNode`, but this will no longer be t
 from the first stable release. You will still have access to `controller` and `params` though.
 
 #### Errors
-  * If the requets HTTP method does not match any existing route, a `MethodNotAllowedError` is triggered.
+  * If the request HTTP method does not match any existing route, a `MethodNotAllowedError` is triggered.
   * If no route is matched, a `ResourceNotFound` error is triggered.
 
 See [`Usage`](#usage) for examples.
