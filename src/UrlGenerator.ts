@@ -25,6 +25,10 @@ export default class UrlGenerator {
     this._options = { ...this._defaultOptions, ...options }
   }
 
+  public get options (): urlGeneratorOptions {
+    return this._options
+  }
+
   public get routes (): Map<string, RouteDefinition> {
     return this._routes
   }
@@ -65,6 +69,7 @@ export default class UrlGenerator {
       path = `/${path}`
     }
 
+    const routeParams: string[] = []
     const parts = path.split('/')
     for (let i = 0; i < parts.length; i++) {
       if (parts[i].startsWith(':')) {
@@ -74,13 +79,16 @@ export default class UrlGenerator {
         }
 
         parts[i] = encodeURIComponent(parameters[paramName])
-        delete parameters[paramName]
+        routeParams.push(paramName)
       }
     }
 
     url = url + parts.join('/')
 
-    const queryParameters = Object.entries(parameters)
+    const queryParameters = Object
+      .entries(parameters)
+      .filter(([name]) => !routeParams.includes(name))
+
     if (queryParameters.length > 0) {
       url += '?'
 

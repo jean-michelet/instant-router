@@ -33,7 +33,7 @@
     "start": "npx nodemon ./dist/example/server.js",
     "format": "ts-standard --fix ./src",
     "prepare": "npm run clean && npm run build",
-    "prepublishOnly": "npm test",
+    "prepublishOnly": "npm test && npm run format",
     "preversion": "npm run format"
   },
   "dependencies": {},

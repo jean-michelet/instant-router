@@ -22,6 +22,10 @@ export default class Router {
     return this._radixTrees
   }
 
+  public get urlGenerator (): UrlGenerator {
+    return this._urlGenerator
+  }
+
   /**
    * Necessary if you want to use UrlGenerator
    */
