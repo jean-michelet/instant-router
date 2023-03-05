@@ -13,21 +13,21 @@ jobs:
         with:
           node-version: 16.x
 
-      - name: Run install
+      - name: Install
         uses: borales/actions-yarn@v4
         with:
           cmd: install # will run `yarn install` command
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # if needed
-      - name: Clean production bundle
+      - name: Clean
         uses: borales/actions-yarn@v4
         with:
           cmd: clean
-      - name: Build production bundle
+      - name: Build
         uses: borales/actions-yarn@v4
         with:
           cmd: build
-      - name: Fromat using standard
+      - name: Format
         uses: borales/actions-yarn@v4
         with:
           cmd: format
