@@ -4,8 +4,9 @@ Ultra fast router to match incoming HTTP requests and generate urls.
 
 * Uses a radix tree datastructure.
 * Highly optimized to match static routes, [check the benchmarks](#benchmarks). 
-* Contains a url generator for relative and absolute paths.
-* Doesn't contain middlewares.
+* UrlGenerator for relative/absolute urls.
+* No middlewares.
+* Framework independent.
 
 ## Summary
 
@@ -156,7 +157,7 @@ To try to match a route from an HTTP request, you must use the `match` method.
 
 Example:
 ```js
-const context = new RequestContext('/users/:id', 'GET')
+const context = new RequestContext('/users/1', 'GET')
 const { controller, params } = router.match(context);
 ```
 
