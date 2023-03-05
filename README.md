@@ -4,8 +4,9 @@ Ultra fast router to match incoming HTTP requests and generate urls.
 
 * Uses a radix tree datastructure.
 * Highly optimized to match static routes, [check the benchmarks](#benchmarks). 
-* Contains a url generator for relative and absolute paths.
-* Doesn't contain middlewares.
+* UrlGenerator for relative/absolute urls.
+* No middlewares.
+* Framework independent.
 
 ## Summary
 
