@@ -15,6 +15,24 @@ describe('RequestContext', () => {
       expect(context.path).toEqual('/users')
       expect(context.method).toEqual('POST')
     })
+
+    it('should create a new RequestContext and set path to "/" if an empty string is passed', () => {
+      const context = new RequestContext('', 'POST')
+      expect(context.path).toEqual('/')
+      expect(context.method).toEqual('POST')
+    })
+
+    it('should create a new RequestContext and add a leading "/" to the path if it is missing', () => {
+      const context = new RequestContext('users', 'POST')
+      expect(context.path).toEqual('/users')
+      expect(context.method).toEqual('POST')
+    })
+
+    it('should create a new RequestContext and ignore query parameters', () => {
+      const context = new RequestContext('/users?foo=1', 'POST')
+      expect(context.path).toEqual('/users')
+      expect(context.method).toEqual('POST')
+    })
   })
 
   describe('fromIncomingMessage', () => {
@@ -43,6 +61,12 @@ describe('RequestContext', () => {
     it('should remove trailing "/" characters from the path', () => {
       const context = new RequestContext()
       context.path = '/users//'
+      expect(context.path).toEqual('/users')
+    })
+
+    it('should ignore query parameters', () => {
+      const context = new RequestContext()
+      context.path = '/users?foo=1'
       expect(context.path).toEqual('/users')
     })
   })
