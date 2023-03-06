@@ -48,6 +48,8 @@ export default class RequestContext {
       path = `/${path}`
     }
 
+    path = path.split('?').shift() as string
+
     this._path = path
   }
 
