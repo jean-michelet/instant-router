@@ -70,7 +70,7 @@ http.createServer((req, res) => {
       res.end('404 - Resource not found')
     } else if (error instanceof MethodNotAllowedError) {
       res.writeHead(405)
-      res.end(`405 - Method ${context.method} not allowed`)
+      res.end(`405 - Method ${req.method} not allowed`)
     } else {
       res.writeHead(500)
       res.end('500 - Internal server error')
