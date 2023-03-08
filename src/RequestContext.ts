@@ -61,7 +61,9 @@ export default class RequestContext {
     method = method.toUpperCase()
 
     if (!RequestContext.availableHttpMethods.includes(method)) {
-      throw new MethodNotAllowedError(method)
+      throw new MethodNotAllowedError(method, `Invalid HTTP method '${method}'. The '${method}' method is not allowed by the RequestContext class.\n` +
+        `Use a valid HTTP method: ${RequestContext.availableHttpMethods.join(', ')}.\n` +
+        'To add a custom HTTP method, update the \'availableHttpMethods\' static array in the RequestContext class.')
     }
 
     this._method = method
